@@ -35,10 +35,10 @@ services:
       - type: bind
         source: ./.env
         target: /app/.env
-      - ./images:/app/client/public/images
-      - ./uploads:/app/uploads
-      - ./logs:/app/logs
-      - ./skill:/app/skill
+      - chat-images:/app/client/public/images
+      - chat-uploads:/app/uploads
+      - chat-logs:/app/logs
+      - chat-skills:/app/skill
       - librechat-data:/app/data
       - ./librechat.yaml:/app/librechat.yaml:ro
   admin-panel:
@@ -83,7 +83,7 @@ services:
     restart: always
     user: "${UID}:${GID}"
     volumes:
-      - ./data-node:/data/db
+      - chat-mongodb-data:/data/db
     command: mongod --noauth
   meilisearch:
     container_name: chat-meilisearch
@@ -95,7 +95,7 @@ services:
       - MEILI_NO_ANALYTICS=true
       - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
     volumes:
-      - ./meili_data_v1.35.1:/meili_data
+      - chat-meili-data:/meili_data
   vectordb:
     container_name: vectordb
     image: pgvector/pgvector:0.8.0-pg15-trixie
@@ -121,3 +121,9 @@ services:
 volumes:
   pgdata2:
   librechat-data:
+  chat-images:
+  chat-uploads:
+  chat-logs:
+  chat-skills:
+  chat-mongodb-data:
+  chat-meili-data:
