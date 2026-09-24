@@ -10,6 +10,7 @@ services:
     depends_on:
       - mongodb
       - rag_api
+      - litellm
     image: registry.librechat.ai/librechat-ai/librechat-dev:latest
     restart: always
     user: "${UID}:${GID}"
@@ -22,13 +23,14 @@ services:
       - LIBRECHAT_TEMP_CREDENTIALS_PATH=/app/data/.env.temp
       - RAG_PORT=${RAG_PORT:-8000}
       - RAG_API_URL=http://rag_api:${RAG_PORT:-8000}
+      - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY}
       - PROXY=${PROXY:-}
       - HTTP_PROXY=${HTTP_PROXY:-}
       - HTTPS_PROXY=${HTTPS_PROXY:-}
-      - NO_PROXY=${NO_PROXY:-localhost,127.0.0.1,::1},${no_proxy:-},mongodb,chat-mongodb,meilisearch,chat-meilisearch,rag_api,vectordb,host.docker.internal
+      - NO_PROXY=${NO_PROXY:-localhost,127.0.0.1,::1},${no_proxy:-},mongodb,chat-mongodb,meilisearch,chat-meilisearch,rag_api,vectordb,litellm,host.docker.internal
       - http_proxy=${http_proxy:-}
       - https_proxy=${https_proxy:-}
-      - no_proxy=${no_proxy:-localhost,127.0.0.1,::1},${NO_PROXY:-},mongodb,chat-mongodb,meilisearch,chat-meilisearch,rag_api,vectordb,host.docker.internal
+      - no_proxy=${no_proxy:-localhost,127.0.0.1,::1},${NO_PROXY:-},mongodb,chat-mongodb,meilisearch,chat-meilisearch,rag_api,vectordb,litellm,host.docker.internal
     volumes:
       - type: bind
         source: ./.env
@@ -38,6 +40,7 @@ services:
       - ./logs:/app/logs
       - ./skill:/app/skill
       - librechat-data:/app/data
+      - ./librechat.yaml:/app/librechat.yaml:ro
   admin-panel:
     container_name: admin-panel
     image: registry.librechat.ai/clickhouse/librechat-admin-panel:latest
@@ -55,6 +58,22 @@ services:
       - API_SERVER_URL=http://api:${PORT:-3080}
       - VITE_API_BASE_URL=${DOMAIN_CLIENT:-http://localhost:3080}
       - SESSION_COOKIE_SECURE=${ADMIN_PANEL_SESSION_COOKIE_SECURE:-false}
+  litellm:
+    image: docker.litellm.ai/berriai/litellm:latest
+    restart: always
+    expose:
+      - "4000"
+    environment:
+      - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY}
+      - OCI_REGION=${OCI_REGION}
+      - OCI_USER=${OCI_USER}
+      - OCI_FINGERPRINT=${OCI_FINGERPRINT}
+      - OCI_TENANCY=${OCI_TENANCY}
+      - OCI_COMPARTMENT_ID=${OCI_COMPARTMENT_ID}
+      - OCI_KEY=${OCI_KEY}
+    volumes:
+      - ./litellm_config.yaml:/app/config.yaml:ro
+    command: ["--config", "/app/config.yaml", "--port", "4000"]
   mongodb:
     container_name: chat-mongodb
     image: mongo:8.0.20

@@ -1,0 +1,60 @@
+model_list:
+  - model_name: oci-gemini-2.5-pro
+    litellm_params:
+      model: oci/google.gemini-2.5-pro
+      oci_region: os.environ/OCI_REGION
+      oci_user: os.environ/OCI_USER
+      oci_fingerprint: os.environ/OCI_FINGERPRINT
+      oci_tenancy: os.environ/OCI_TENANCY
+      oci_key: os.environ/OCI_KEY
+      oci_compartment_id: os.environ/OCI_COMPARTMENT_ID
+  - model_name: oci-gemini-2.5-flash
+    litellm_params:
+      model: oci/google.gemini-2.5-flash
+      oci_region: os.environ/OCI_REGION
+      oci_user: os.environ/OCI_USER
+      oci_fingerprint: os.environ/OCI_FINGERPRINT
+      oci_tenancy: os.environ/OCI_TENANCY
+      oci_key: os.environ/OCI_KEY
+      oci_compartment_id: os.environ/OCI_COMPARTMENT_ID
+  - model_name: oci-gemini-2.5-flash-lite
+    litellm_params:
+      model: oci/google.gemini-2.5-flash-lite
+      oci_region: os.environ/OCI_REGION
+      oci_user: os.environ/OCI_USER
+      oci_fingerprint: os.environ/OCI_FINGERPRINT
+      oci_tenancy: os.environ/OCI_TENANCY
+      oci_key: os.environ/OCI_KEY
+      oci_compartment_id: os.environ/OCI_COMPARTMENT_ID
+  - model_name: oci-gpt-oss-120b
+    litellm_params:
+      model: oci/openai.gpt-oss-120b
+      oci_region: os.environ/OCI_REGION
+      oci_user: os.environ/OCI_USER
+      oci_fingerprint: os.environ/OCI_FINGERPRINT
+      oci_tenancy: os.environ/OCI_TENANCY
+      oci_key: os.environ/OCI_KEY
+      oci_compartment_id: os.environ/OCI_COMPARTMENT_ID
+  - model_name: oci-gpt-oss-20b
+    litellm_params:
+      model: oci/openai.gpt-oss-20b
+      oci_region: os.environ/OCI_REGION
+      oci_user: os.environ/OCI_USER
+      oci_fingerprint: os.environ/OCI_FINGERPRINT
+      oci_tenancy: os.environ/OCI_TENANCY
+      oci_key: os.environ/OCI_KEY
+      oci_compartment_id: os.environ/OCI_COMPARTMENT_ID
+  - model_name: oci-llama-3.3-70b
+    litellm_params:
+      model: oci/meta.llama-3.3-70b-instruct
+      oci_region: os.environ/OCI_REGION
+      oci_user: os.environ/OCI_USER
+      oci_fingerprint: os.environ/OCI_FINGERPRINT
+      oci_tenancy: os.environ/OCI_TENANCY
+      oci_key: os.environ/OCI_KEY
+      oci_compartment_id: os.environ/OCI_COMPARTMENT_ID
+litellm_settings:
+  drop_params: true
+  set_verbose: false
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
