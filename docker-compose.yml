@@ -73,7 +73,8 @@ services:
       - OCI_KEY=${OCI_KEY}
     volumes:
       - ./litellm_config.yaml:/app/config.yaml:ro
-    command: ["--config", "/app/config.yaml", "--port", "4000"]
+      - ./start_litellm.py:/app/start_litellm.py:ro
+    entrypoint: ["python", "/app/start_litellm.py"]
   mongodb:
     container_name: chat-mongodb
     image: mongo:8.0.20
