@@ -462,6 +462,10 @@ def handle_generic_stream_chunk(dict_chunk: dict) -> ModelResponseStream:
             StreamingChoices(
                 index=typed_chunk.index,
                 delta=Delta(
+                    # OpenAI stream consumers (including LangChain) need the
+                    # role on the first delta to classify tool calls as AI
+                    # tool calls instead of generic chat metadata.
+                    role="assistant",
                     content=text,
                     tool_calls=tool_calls,
                     provider_specific_fields=None,
