@@ -9,9 +9,8 @@ services:
       - meilisearch
       - rag_api
 
-    ports:
-      - "${PORT:-3080}:3080"
-
+    expose:
+      - "3080"
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
