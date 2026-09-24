@@ -59,7 +59,7 @@ services:
       - VITE_API_BASE_URL=${DOMAIN_CLIENT:-http://localhost:3080}
       - SESSION_COOKIE_SECURE=${ADMIN_PANEL_SESSION_COOKIE_SECURE:-false}
   litellm:
-    image: docker.litellm.ai/berriai/litellm:latest
+    image: docker.litellm.ai/berriai/litellm@sha256:87f34979b9f8cb274fac90ca8a4fdda07d8480de22755562a26adeb95ce20d02
     restart: always
     mem_limit: 1g
     memswap_limit: 1536m
@@ -76,6 +76,7 @@ services:
     volumes:
       - ./litellm_config.yaml:/app/config.yaml:ro
       - ./start_litellm.py:/app/start_litellm.py:ro
+      - ./patches/oci_generic.py:/app/.venv/lib/python3.13/site-packages/litellm/llms/oci/chat/generic.py:ro
     entrypoint: ["python", "/app/start_litellm.py"]
   mongodb:
     container_name: chat-mongodb
