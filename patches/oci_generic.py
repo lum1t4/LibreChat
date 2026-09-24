@@ -373,12 +373,7 @@ def handle_generic_response(
         if response_message.toolCalls:
             message.tool_calls = adapt_tools_to_openai_standard(response_message.toolCalls)
 
-    finish_reason = _normalize_oci_finish_reason(response_choice.finishReason)
-    # OCI Gemini can report COMPLETE for a tool-call response. OpenAI clients
-    # need tool_calls to know they should execute the returned function.
-    if finish_reason == "stop" and message.tool_calls:
-        finish_reason = "tool_calls"
-    model_response.choices[0].finish_reason = finish_reason
+    model_response.choices[0].finish_reason = _normalize_oci_finish_reason(response_choice.finishReason)
 
     oci_usage: Final = completion_response.chatResponse.usage
     reasoning_tokens: int | None = None
