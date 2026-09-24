@@ -77,6 +77,7 @@ services:
       - ./litellm_config.yaml:/app/config.yaml:ro
       - ./start_litellm.py:/app/start_litellm.py:ro
       - ./patches/oci_generic.py:/app/.venv/lib/python3.13/site-packages/litellm/llms/oci/chat/generic.py:ro
+      - ./patches/oci_transformation.py:/app/.venv/lib/python3.13/site-packages/litellm/llms/oci/chat/transformation.py:ro
     entrypoint: ["python", "/app/start_litellm.py"]
   mongodb:
     container_name: chat-mongodb
