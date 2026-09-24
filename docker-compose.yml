@@ -61,6 +61,8 @@ services:
   litellm:
     image: docker.litellm.ai/berriai/litellm:latest
     restart: always
+    mem_limit: 1g
+    memswap_limit: 1536m
     expose:
       - "4000"
     environment:
